@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} — {{ settings.site_name }}{% endblock %}
+{% block desc %}{{ post.content | striptags | truncate(160) }}{% endblock %}
+{% block head %}
+<meta property="og:title" content="{{ post.title }}">
+<meta property="og:description" content="{{ post.content | striptags | truncate(160) }}">
+{% if post.image %}<meta property="og:image" content="{{ post.image }}">{% endif %}
+<meta property="og:url" content="{{ request.url }}">
+<meta property="og:type" content="article">
+{% endblock %}
+{% block content %}
+
+<div class="post-layout">
+  <!-- ARTICLE -->
+  <article class="article-main">
+
+    <div class="article-header">
+      <div class="article-cats">
+        <a href="/category/{{ post.category }}" class="cat-badge">{{ post.category }}</a>
+      </div>
+      <h1 class="article-title">{{ post.title }}</h1>
+      <div class="article-meta">
+        <span>🕐 {{ post.created_at[:10] }}</span>
+        <span>👁 {{ post.views }} views</span>
+        {% if post.tags %}<span>🏷 {{ post.tags }}</span>{% endif %}
+      </div>
+
+      <!-- SHARE BUTTONS -->
+      <div class="share-row">
+        <span class="share-label">Share:</span>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url }}" target="_blank" rel="noopener" class="share-btn fb-share">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </a>
+        <a href="https://twitter.com/intent/tweet?url={{ request.url }}&text={{ post.title }}" target="_blank" rel="noopener" class="share-btn tw-share">
+          𝕏 Twitter
+        </a>
+        <a href="https://wa.me/?text={{ post.title }} {{ request.url }}" target="_blank" rel="noopener" class="share-btn wa-share">
+          💬 WhatsApp
+        </a>
+        <button onclick="copyLink()" class="share-btn copy-share">🔗 Copy Link</button>
+      </div>
+    </div>
+
+    {% if post.image %}
+    <div class="article-featured-img">
+      <img src="{{ post.image }}" alt="{{ post.title }}">
+    </div>
+    {% endif %}
+
+    <div class="article-body">
+      {{ post.content | safe }}
+    </div>
+
+    <!-- BOTTOM SHARE -->
+    <div class="share-row bottom-share">
+      <span class="share-label">Share this story:</span>
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url }}" target="_blank" rel="noopener" class="share-btn fb-share">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Share on Facebook
+      </a>
+      <a href="https://wa.me/?text={{ post.title }} {{ request.url }}" target="_blank" rel="noopener" class="share-btn wa-share">
+        💬 Share on WhatsApp
+      </a>
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    {% if settings.adsterra_sidebar %}
+    <div class="sidebar-widget ad-widget">{{ settings.adsterra_sidebar|safe }}</div>
+    {% endif %}
+
+    {% if settings.facebook_page %}
+    <div class="sidebar-widget fb-widget">
+      <div class="widget-title">📘 Follow Us</div>
+      <p>Get the latest news on our Facebook page!</p>
+      <a href="{{ settings.facebook_page }}" target="_blank" rel="noopener" class="fb-page-btn">Like Our Page</a>
+    </div>
+    {% endif %}
+
+    {% if related %}
+    <div class="sidebar-widget">
+      <div class="widget-title">📰 Related News</div>
+      <div class="related-list">
+        {% for r in related %}
+        <a href="/post/{{ r.slug }}" class="related-item">
+          {% if r.image %}<div class="related-img" style="background-image:url('{{ r.image }}')"></div>
+          {% else %}<div class="related-img related-no-img">⚡</div>{% endif %}
+          <div class="related-text">
+            <div class="related-title">{{ r.title }}</div>
+            <div class="related-date">{{ r.created_at[:10] }}</div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="sidebar-widget">
+      <div class="widget-title">📂 Categories</div>
+      <ul class="cat-list">
+        {% for cat in categories %}{% if cat != 'All' %}
+        <li><a href="/category/{{ cat }}">{{ cat }} <span class="arrow">→</span></a></li>
+        {% endif %}{% endfor %}
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<script>
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    alert('Link copied to clipboard!');
+  });
+}
+</script>
+{% endblock %}

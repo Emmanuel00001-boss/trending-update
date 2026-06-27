@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ settings.site_name }}{% endblock %}</title>
+{% if settings.google_verification %}
+<meta name="google-site-verification" content="{{ settings.google_verification }}">
+{% endif %}
+<meta name="description" content="{% block desc %}{{ settings.tagline }}{% endblock %}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% block head %}{% endblock %}
+</head>
+<body>
+
+{% if settings.adsterra_header %}
+<div class="ad-bar top-ad">{{ settings.adsterra_header|safe }}</div>
+{% endif %}
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-top">
+      <a href="/" class="site-logo">
+        <span class="logo-bolt">⚡</span>
+        <span class="logo-text">{{ settings.site_name }}</span>
+      </a>
+      <div class="header-actions">
+        <form class="search-form" action="/" method="get">
+          <input type="text" name="q" placeholder="Search news..." value="{{ request.args.get('q','') }}">
+          <button type="submit">🔍</button>
+        </form>
+        {% if settings.facebook_page %}
+        <a href="{{ settings.facebook_page }}" target="_blank" rel="noopener" class="fb-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Follow Us
+        </a>
+        {% endif %}
+      </div>
+    </div>
+    <nav class="cat-nav">
+      <a href="/" class="{% if active_cat is defined and active_cat == 'All' %}active{% endif %}">Home</a>
+      {% for cat in categories %}{% if cat != 'All' %}
+      <a href="/category/{{ cat }}" class="{% if active_cat is defined and active_cat == cat %}active{% endif %}">{{ cat }}</a>
+      {% endif %}{% endfor %}
+    </nav>
+  </div>
+</header>
+
+<main class="main-wrap">
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+</main>
+
+<footer class="site-footer">
+  {% if settings.adsterra_footer %}
+  <div class="ad-bar footer-ad">{{ settings.adsterra_footer|safe }}</div>
+  {% endif %}
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo-bolt">⚡</span> {{ settings.site_name }}
+        <p>{{ settings.tagline }}</p>
+      </div>
+      <div class="footer-links">
+        {% for cat in categories %}{% if cat != 'All' %}
+        <a href="/category/{{ cat }}">{{ cat }}</a>
+        {% endif %}{% endfor %}
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 {{ settings.site_name }}. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

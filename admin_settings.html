@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — Trending Update</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-body">
+
+<div class="admin-wrap">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">⚡ Trending Update</div>
+    <nav class="admin-nav">
+      <a href="/admin/dashboard" class="admin-nav-item">📊 Dashboard</a>
+      <a href="/admin/new" class="admin-nav-item">✏️ New Post</a>
+      <a href="/admin/settings" class="admin-nav-item active">⚙️ Settings</a>
+      <a href="/" target="_blank" class="admin-nav-item">🌐 View Site</a>
+      <a href="/admin/logout" class="admin-nav-item logout">🚪 Logout</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1 class="admin-page-title">⚙️ Settings</h1>
+    </div>
+
+    {% if saved %}
+    <div class="alert alert-success">✅ Settings saved successfully!</div>
+    {% endif %}
+
+    <form method="POST">
+      <div class="settings-grid">
+
+        <!-- SITE SETTINGS -->
+        <div class="admin-card">
+          <div class="admin-card-header"><h2>🌐 Site Settings</h2></div>
+          <div class="form-group">
+            <label>Site Name</label>
+            <input type="text" name="site_name" value="{{ settings.site_name }}">
+          </div>
+          <div class="form-group">
+            <label>Tagline</label>
+            <input type="text" name="tagline" value="{{ settings.tagline }}" placeholder="Breaking News & Latest Updates">
+          </div>
+          <div class="form-group">
+            <label>Google Search Console Verification Code</label>
+            <input type="text" name="google_verification" value="{{ settings.google_verification }}" placeholder="Paste only the content value e.g. abc123xyz">
+            <small>Go to Google Search Console → HTML tag → copy only the content="..." value</small>
+          </div>
+        </div>
+
+        <!-- FACEBOOK SETTINGS -->
+        <div class="admin-card">
+          <div class="admin-card-header"><h2>📘 Facebook Page</h2></div>
+          <div class="form-group">
+            <label>Your Facebook Page URL</label>
+            <input type="url" name="facebook_page" value="{{ settings.facebook_page }}" placeholder="https://www.facebook.com/yourpage">
+            <small>This adds a Follow button on your website and enables Facebook sharing</small>
+          </div>
+        </div>
+
+        <!-- ADSTERRA ADS -->
+        <div class="admin-card">
+          <div class="admin-card-header"><h2>💰 Adsterra Ad Codes</h2></div>
+          <p class="settings-note">Paste your Adsterra script codes below. Leave empty to hide that ad spot.</p>
+
+          <div class="form-group">
+            <label>Header Ad (top of every page)</label>
+            <textarea name="adsterra_header" rows="4" placeholder="Paste your Adsterra header ad script here...">{{ settings.adsterra_header }}</textarea>
+          </div>
+          <div class="form-group">
+            <label>Sidebar Ad (right sidebar)</label>
+            <textarea name="adsterra_sidebar" rows="4" placeholder="Paste your Adsterra sidebar ad script here...">{{ settings.adsterra_sidebar }}</textarea>
+          </div>
+          <div class="form-group">
+            <label>Footer Ad (bottom of every page)</label>
+            <textarea name="adsterra_footer" rows="4" placeholder="Paste your Adsterra footer ad script here...">{{ settings.adsterra_footer }}</textarea>
+          </div>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="admin-card">
+          <div class="admin-card-header"><h2>🔐 Security</h2></div>
+          <div class="form-group">
+            <label>Change Admin Password</label>
+            <input type="password" name="new_password" placeholder="Leave empty to keep current password">
+            <small>Current password is kept if you leave this empty</small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="settings-save-bar">
+        <button type="submit" class="btn-primary">💾 Save All Settings</button>
+      </div>
+    </form>
+  </main>
+</div>
+</body>
+</html>
