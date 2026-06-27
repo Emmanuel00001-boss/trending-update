@@ -2,6 +2,6 @@ services:
   - type: web
     name: trending-update
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
+    buildCommand: "pip install -r requirements.txt && mkdir -p static/uploads"
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT"
     plan: free
