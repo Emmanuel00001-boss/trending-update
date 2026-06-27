@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Trending Update</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-body">
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">⚡ Trending Update</div>
+    <div class="login-title">Admin Login</div>
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+    <form method="POST">
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter admin password" autofocus required>
+      </div>
+      <button type="submit" class="btn-primary full-btn">Login →</button>
+    </form>
+    <a href="/" class="back-link">← Back to website</a>
+  </div>
+</div>
+</body>
+</html>
