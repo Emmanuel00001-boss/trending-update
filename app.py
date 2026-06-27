@@ -238,9 +238,4 @@ def admin_settings():
 if __name__ == "__main__":
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     port = int(os.environ.get("PORT", 5001))
-    print("\n✅  Trending Update is running!")
-    print(f"👉  Website:  http://0.0.0.0:{port}")
-    print(f"🔐  Admin:    http://0.0.0.0:{port}/admin")
-    print(f"📊  Analytics:http://0.0.0.0:{port}/admin/analytics")
-    print("🔑  Password: admin123\n")
     app.run(host="0.0.0.0", port=port, debug=False)
