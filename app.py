@@ -90,7 +90,9 @@ def home():
     featured = posts[0] if posts else None
     return render_template("home.html", posts=posts, featured=featured,
                            settings=settings, categories=CATEGORIES, active_cat=cat, search=search)
-
+@app.route('/googlede31a4018f39a1fe.html')
+def google_verify():
+    return 'google-site-verification: googlede31a4018f39a1fe.html'
 @app.route("/post/<slug>")
 def post(slug):
     posts   = load_posts()
